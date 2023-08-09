@@ -3,17 +3,17 @@ import axios from 'axios'
 import Pokemon from "../Pokemon/Pokemon"
 
 function PokemonList() {
-    const [pokemonList, setPokemonList] = useState([])
-    const [isLoading, setLoading] = useState(true)
-    const [pokedexUrl, setPokedexurl] = useState(`https://pokeapi.co/api/v2/pokemon`)
-    const [nextUrl, setNextUrl] = useState(``)
-    const [prevUrl, setPrevUrl] = useState(``)
+    const [pokemonListState, setPokemonListState] = useState({
+        pokemonList: [],
+        isLoading: true,
+        pokedexUrl: `https://pokeapi.co/api/v2/pokemon`,
+        nextUrl: '',
+        prevUrl: ''
+    })
     async function fetchdata() {
-        setLoading(true)
-        const response = await axios.get(pokedexUrl)
-        console.log(response);
-        setNextUrl(response.data.next)
-        setPrevUrl(response.data.previous)
+        setPokemonListState({ ...pokemonListState, isLoading: true })
+        const response = await axios.get(pokemonListState.pokedexUrl)
+        setPokemonListState((state) => ({ ...state, nextUrl: response.data.next, prevUrl: response.data.previous }))
         const pokemonResult = response.data.results
         const pokemonResultPromise = pokemonResult.map((pokemon) => axios.get(pokemon.url))
         const pokemonData = await axios.all(pokemonResultPromise)
@@ -25,22 +25,21 @@ function PokemonList() {
                 image: pokemon.sprites.other.dream_world.front_default
             }
         })
-        setPokemonList(res)
-        setLoading(false)
+        setPokemonListState((state) => ({ ...state, pokemonList: res, isLoading: false }))
     }
     useEffect(() => {
         fetchdata()
-    }, [pokedexUrl])
+    }, [pokemonListState.pokedexUrl])
     return (
         <>
             <div className="pokemon-list">
-                {(isLoading) ? <><div className="loading"></div></> : <>
-                    {pokemonList.map((data, idx) => <Pokemon key={idx} name={data.name} image={data.image} id={data.id} />)}
+                {(pokemonListState.isLoading) ? <><div className="loading"></div></> : <>
+                    {pokemonListState.pokemonList.map((data, idx) => <Pokemon key={idx} name={data.name} image={data.image} id={data.id} />)}
                 </>}
             </div>
             <div className="buttons">
-                <button disabled={prevUrl === null} onClick={() => setPokedexurl(prevUrl)}>prev</button>
-                <button disabled={nextUrl === null} onClick={() => setPokedexurl(nextUrl)}>next</button>
+                <button disabled={pokemonListState.prevUrl === null} onClick={() => setPokemonListState({ ...pokemonListState, pokedexUrl: pokemonListState.prevUrl })}>prev</button>
+                <button disabled={pokemonListState.nextUrl === null} onClick={() => setPokemonListState({ ...pokemonListState, pokedexUrl: pokemonListState.nextUrl })}>next</button>
             </div>
         </>
     )
