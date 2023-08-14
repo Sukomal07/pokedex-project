@@ -19,8 +19,7 @@ function PokemonDetails({ pokemonName }) {
                 weight: response.data.weight,
                 height: response.data.height,
                 types: response.data.types.map((t) => t.type.name)
-            }
-            )
+            })
         } catch (error) {
             console.log("Something went wrong");
         }
@@ -46,7 +45,6 @@ function PokemonDetails({ pokemonName }) {
                     <img src={pokemon.image} alt={pokemon.name} className="pokemon-image" />
                 </div>
             </div>
-
         </>
     )
 }
