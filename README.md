@@ -7,6 +7,7 @@ Pokedex is a website built using Vite and React that allows users to explore inf
 - View a list of Pokemon names and images.
 - Click on a Pokemon to view more detailed information.
 - Responsive design for optimal viewing on different devices.
+- Search pokemon with their name or id
 
 ## Technologies Used
 
@@ -19,8 +20,8 @@ Pokedex is a website built using Vite and React that allows users to explore inf
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/pokedex.git
-cd pokedex
+git clone https://github.com/sukomal07/pokedex-project.git
+cd pokedex-project
 ```
 
 2. Install dependencies:
@@ -37,7 +38,7 @@ npm install
 npm run dev
 ```
 
-2. Open your web browser and navigate to `http://localhost:3000` to access the Pokedex website.
+2. Open your web browser and navigate to `http://localhost:5173` to access the Pokedex website.
 
 ## Credits
 
@@ -51,6 +52,3 @@ Contributions are welcome! If you'd like to add new features, improve existing o
 
 This project is licensed under the [MIT License](LICENSE).
 
----
-
-Feel free to customize the README with any additional information or instructions you think might be helpful for users and developers. Happy coding!
